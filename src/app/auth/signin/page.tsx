@@ -1,16 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
-import { Input } from "@/components/ui/input";
 import {
   Field,
   FieldContent,
@@ -18,9 +15,8 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import Link from "next/link";
+import { Input } from "@/components/ui/input";
 import { authClient } from "../../../lib/auth-client";
-import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
@@ -31,8 +27,6 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function Page() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<FormValues>({
@@ -45,7 +39,6 @@ export default function Page() {
   });
 
   function onSubmit(data: FormValues) {
-    setIsLoading(true);
     authClient.signIn.email(
       {
         email: data.email,
@@ -61,13 +54,11 @@ export default function Page() {
             message:
               error?.error?.message || "An error occurred during sign-in.",
           });
-          setIsLoading(false);
         },
         onSuccess: (session) => {
           toast.success(
             `Welcome back, ${session?.data?.user?.name || "User"}!`,
           );
-          setIsLoading(false);
           window.location.href = "/admin/d";
         },
       },
@@ -163,8 +154,8 @@ export default function Page() {
               )}
             />
 
-            {/* Remember Me + Forgot Password */}
-            <div className="flex items-center justify-between">
+            {/* Remember me */}
+            <div className="flex items-center">
               <Controller
                 name="rememberMe"
                 control={form.control}
@@ -183,14 +174,6 @@ export default function Page() {
                   </Field>
                 )}
               />
-
-              <Button
-                type="button"
-                variant="link"
-                className="h-auto p-0 text-sm text-blue-600"
-              >
-                Forgot password?
-              </Button>
             </div>
 
             {/* Submit */}
