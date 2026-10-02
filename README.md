@@ -245,8 +245,13 @@ API_INTEGRATION.txt      Backend API contract
 - Review CORS, cookie flags, HTTPS, rate limiting, audit logging, and data
   retention before production use.
 
+## Technical Decisions
 
-Visual Output & Screenshots:
+Better auth was used for faster , safer and secured development, things like rate limiting with flexibly definable sliding window and many more is easily configurable there.
+For the design and frontend foundation Shadcn and its Dashboard block 001 was used primarily, with help of tweakcn a prefereable theme was created. react-draggable was used for quick create modal. biome was used for simpler and faster linting. tanstack was used for data querying and caching throughout front end. also its dev tools for simpler dev experence.
+
+
+## Visual Output & Screenshots:
 
 <img src="https://i.ibb.co.com/GvCgWkWW/image.png" alt="image" border="0">
 <img src="https://i.ibb.co.com/XkGzR6F5/image.png" alt="image" border="0">
