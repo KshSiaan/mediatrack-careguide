@@ -1,7 +1,8 @@
+import type React from "react";
+import { AdminAuthGuard } from "@/components/admin-auth-guard";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,15 +14,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            {children}
+      <AdminAuthGuard>
+        <AppSidebar variant="floating" />
+        <SidebarInset>
+          <SiteHeader />
+          <div className="flex flex-1 flex-col">
+            <div className="@container/main flex flex-1 flex-col gap-2">
+              {children}
+            </div>
           </div>
-        </div>
-      </SidebarInset>
+        </SidebarInset>
+      </AdminAuthGuard>
     </SidebarProvider>
   );
 }

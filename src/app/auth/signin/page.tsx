@@ -19,6 +19,8 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import Link from "next/link";
+import { authClient } from "../../../lib/auth-client";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
@@ -30,6 +32,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function Page() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<FormValues>({
@@ -42,7 +45,33 @@ export default function Page() {
   });
 
   function onSubmit(data: FormValues) {
-    console.log("Sign in:", data);
+    setIsLoading(true);
+    authClient.signIn.email(
+      {
+        email: data.email,
+        password: data.password,
+        rememberMe: data.rememberMe,
+      },
+      {
+        onError: (error) => {
+          // toast.error(
+          //   error?.error?.message || "An error occurred during sign-in.",
+          // );
+          form.setError("password", {
+            message:
+              error?.error?.message || "An error occurred during sign-in.",
+          });
+          setIsLoading(false);
+        },
+        onSuccess: (session) => {
+          toast.success(
+            `Welcome back, ${session?.data?.user?.name || "User"}!`,
+          );
+          setIsLoading(false);
+          window.location.href = "/admin/d";
+        },
+      },
+    );
   }
 
   return (
