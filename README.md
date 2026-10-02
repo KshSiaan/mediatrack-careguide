@@ -244,3 +244,10 @@ API_INTEGRATION.txt      Backend API contract
   backend on every protected endpoint.
 - Review CORS, cookie flags, HTTPS, rate limiting, audit logging, and data
   retention before production use.
+
+
+Visual Output & Screenshots:
+
+<img src="https://i.ibb.co.com/GvCgWkWW/image.png" alt="image" border="0">
+<img src="https://i.ibb.co.com/XkGzR6F5/image.png" alt="image" border="0">
+<img src="https://i.ibb.co.com/5XdZmv7m/image.png" alt="image" border="0">
